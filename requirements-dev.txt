@@ -1,0 +1,79 @@
+# Development Dependencies for CLI Calculator Project
+# DevOps & Quality Assurance Tools
+
+# Testing Framework
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-xdist>=3.3.1  # Parallel test execution
+pytest-mock>=3.11.1  # Mock utilities for testing
+
+# Code Quality & Linting
+flake8>=6.0.0
+flake8-docstrings>=1.7.0  # Docstring linting
+flake8-import-order>=0.18.2  # Import order checking
+flake8-bugbear>=23.7.10  # Additional bug detection
+
+# Code Formatting
+black>=23.7.0
+isort>=5.12.0  # Import sorting
+
+# Type Checking
+mypy>=1.5.0
+types-setuptools>=68.0.0  # Type stubs for setuptools
+
+# Security Scanning
+bandit>=1.7.5
+safety>=2.3.0
+
+# Pre-commit Hooks
+pre-commit>=3.3.3
+
+# Build Tools
+build>=0.10.0
+wheel>=0.41.0
+setuptools>=68.0.0
+
+# Documentation (Sphinx bonus)
+sphinx>=7.1.0
+sphinx-rtd-theme>=1.3.0
+sphinx-autodoc-typehints>=1.24.0
+
+# Code Coverage
+coverage>=7.2.0
+coverage[toml]>=7.2.0
+
+# Development Utilities
+tox>=4.6.0  # Testing across multiple Python versions
+twine>=4.0.0  # Package uploading to PyPI
+pip-tools>=7.1.0  # Dependency management
+
+# C Extension Development
+Cython>=3.0.0  # Alternative C extension approach
+pybind11>=2.11.0  # Alternative to Python C API
+
+# Performance Testing
+pytest-benchmark>=4.0.0
+memory-profiler>=0.61.0
+
+# Debugging Tools
+pdb++>=0.10.3  # Enhanced debugger
+ipdb>=0.13.13  # IPython debugger
+
+# Code Complexity Analysis
+radon>=6.0.1  # Code complexity metrics
+xenon>=0.9.0  # Code complexity monitoring
+
+# Git Hooks and Workflow
+gitpython>=3.1.32  # Git repository interaction
+commitizen>=3.6.0  # Conventional commits
+
+# Cross-platform Testing Support
+tox-gh-actions>=3.1.3  # GitHub Actions integration for tox
+
+# Additional Quality Tools
+vulture>=2.7  # Dead code detection
+interrogate>=1.5.0  # Docstring coverage
+pycodestyle>=2.11.0  # PEP 8 style checker
+
+# Environment Management
+python-dotenv>=1.0.0  # Environment variable management
