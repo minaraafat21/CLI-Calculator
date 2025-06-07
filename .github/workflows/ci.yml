@@ -1,0 +1,200 @@
+# .github/workflows/ci.yml      Indicates the file path where the workflow is stored
+name: CI/CD Pipeline    # Sets the descriptive name of the workflow
+
+on:     # Specifies the events that trigger the workflow
+  push:     # The workflow runs whenever code is pushed to certain branches
+    branches: [ main, develop ]     # Only pushes to the main or develop branches will trigger this pipeline.
+  pull_request:     # The workflow also triggers when a pull request targets the specified branches
+    branches: [ main, develop ]     # This ensures that the CI process validates contributions before merging them into critical branches
+
+jobs:   # Defines the set of jobs for the workflow
+  test:
+    runs-on: ${{ matrix.os }}   # Sets the virtual environment for each job dynamically based on the operating system defined in the matrix
+    strategy:   # Defines a matrix to run the job across several combinations
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        exclude:
+          # Reduce matrix size for faster builds
+          - os: windows-latest
+            python-version: '3.8'
+          - os: macos-latest
+            python-version: '3.8'
+
+    steps:
+    - uses: actions/checkout@v4    # Clones the repository into the runner so that subsequent steps have access to the codebase
+
+    - name: Set up Python ${{ matrix.python-version }}   # Ensures that the specific Python version (as defined in the matrix) is installed
+      uses: actions/setup-python@v4     # Uses GitHub’s official action to install/setup Python
+      with:
+        python-version: ${{ matrix.python-version }}    # Dynamically picks the Python version from the matrix for current runner iteration
+
+    - name: Install system dependencies (Ubuntu)    # This step only runs on Ubuntu runners
+      if: matrix.os == 'ubuntu-latest' 
+      # Updates the package lists and installs essential build tools (like gcc, make) and analysis tools (valgrind, cppcheck) needed for C-based code     
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential gcc make valgrind cppcheck
+
+    - name: Install system dependencies (macOS)
+      if: matrix.os == 'macos-latest'
+      # Uses Homebrew to install similar tools required on macOS
+      run: |
+        brew install gcc make cppcheck
+
+    - name: Install system dependencies (Windows)
+      if: matrix.os == 'windows-latest'
+      # Uses Chocolatey to install the MinGW toolchain and make on Windows
+      run: |
+        choco install mingw make
+
+    - name: Cache pip dependencies  # Caches Python package installations to speed up subsequent runs
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip  # Caches the pip cache directory
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}  # Creates a unique key based on the operating system and the hash of requirements files
+        # Specifies a fallback key to restore the cache if an exact match is not found
+        restore-keys: |
+          ${{ runner.os }}-pip- 
+
+    - name: Install Python dependencies # Sets up the required Python packages
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+
+    - name: Lint C code # Uses static analysis on C code to catch errors and potential bugs
+      if: matrix.os == 'ubuntu-latest'
+      # Scans C source files under src/c/ and exits with an error code if violations are found
+      run: |
+        cppcheck --enable=all --error-exitcode=1 src/c/
+
+    - name: Check C code formatting # Verifies that the C code adheres to prescribed formatting rules using clang-format
+      if: matrix.os == 'ubuntu-latest'
+      # Searches for C and header files, checks formatting without modifying files, and exits with an error if issues are detected
+      run: |
+        find src/c -name "*.c" -o -name "*.h" | xargs clang-format --dry-run --Werror
+
+    - name: Lint Python code    # Uses tools like flake8 and pylint to check Python code quality and style
+      # Runs both linting tools on the given directories
+      run: |
+        flake8 src/python tests
+        pylint src/python
+
+    - name: Check Python code formatting    # Ensures Python code is formatted correctly
+      # Uses Black to check code formatting and isort to verify import order
+      run: |
+        black --check src/python tests
+        isort --check-only src/python tests
+
+    - name: Type check Python code  # Executes mypy to perform static type analysis on the Python code
+      # Catches inconsistencies or type errors that might not be detected through runtime tests
+      run: |
+        mypy src/python
+
+    - name: Build C backend # Runs the Makefile target to build the C backend
+      run: |
+        make build
+
+    - name: Build Python package    # Builds the Python package, including any C extension modules
+      # Compiles any C extensions and places them within the package directory
+      run: |
+        python setup.py build_ext --inplace
+
+    - name: Run C tests # Executes tests for the C code
+      # Assumes a Makefile rule called test-c that runs C-related tests
+      run: |
+        make test-c
+
+    - name: Run Python tests with coverage  # Runs the Python test suite while capturing code coverage
+      # Runs tests using pytest and outputs a coverage report in XML format
+      run: |
+        coverage run -m pytest tests/python/
+        coverage xml
+
+    - name: Upload coverage to Codecov  # Uploads the coverage report to Codecov for analysis
+      # This step is conditionally executed only on a specific OS and Python version to avoid duplicate uploads
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10'  
+      uses: codecov/codecov-action@v3   # Utilizes Codecov’s GitHub action to automate the upload process
+      with: # Specifies the file to upload and details that help identify the report
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+
+    - name: Test CLI functionality  # Tests that the command-line interface behaves as expected by executing several arithmetic operations via the cli_calculator module
+      # Runs a series of commands to test addition, subtraction, multiplication, and division
+      run: |
+        python -m cli_calculator 2 + 3
+        python -m cli_calculator 10 - 4
+        python -m cli_calculator 6 "*" 7
+        python -m cli_calculator 15 / 3
+
+    - name: Test Python API # Tests that the Python API (importable as a module) is working correctly
+      # Imports the module and performs an addition operation to verify its functionality
+      run: |
+        python -c "import cli_calculator; print(cli_calculator.add(2, 3))"
+
+  security: # Defines a separate job focusing on code security and vulnerability scanning
+    runs-on: ubuntu-latest  # Runs on Ubuntu to ensure a consistent environment for security tools
+    steps:
+    - uses: actions/checkout@v4 # Checks out the repository code
+
+    - name: Run CodeQL Analysis # Initializes CodeQL, a tool by GitHub for identifying security vulnerabilities
+      uses: github/codeql-action/init@v2    # Sets up the environment for scanning, targeting both Python and C++ languages by specifying
+      with:
+        languages: python, cpp
+
+    - name: Autobuild   # Uses CodeQL’s automated build process to compile the project in a compatible manner
+      uses: github/codeql-action/autobuild@v2
+
+    - name: Perform CodeQL Analysis # Runs the actual security analysis after the build step
+      uses: github/codeql-action/analyze@v2
+
+    - name: Set up Python   # Resets the Python environment to version 3.10 for the upcoming security scans
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies    # Installs security-focused Python tools, such as Bandit and Safety
+      run: |
+        pip install bandit safety
+
+    - name: Run Bandit security scan    # Scans the Python code for common security issues using Bandit
+      run: |
+        bandit -r src/python/
+
+    - name: Check for known vulnerabilities # Uses Safety to check whether any installed dependencies have known vulnerabilities
+      run: |
+        safety check
+
+  build-package:    # Defines a job responsible for building the distributable package
+    runs-on: ubuntu-latest  # Uses an Ubuntu runner for consistency during the package build process
+    needs: [test]   # Specifies that this job should only run after the test job has successfully completed, ensuring the code passes all tests before packaging
+    # Ensures that the package building step only executes for commit events on the main branch, avoiding unnecessary builds on feature branches or pull requests
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4 # Checks out the repository code again for this job
+
+    - name: Set up Python   # Sets up Python version 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install build dependencies  # Installs the necessary tools (build and twine) required to package Python projects
+      run: |
+        pip install build twine
+
+    - name: Build package   # Creates distribution packages (such as wheels and source distributions) using Python’s build tool
+      run: |
+        python -m build
+
+    - name: Check package   # Verifies that the generated package is valid and ready for distribution using Twine
+      run: |
+        twine check dist/*
+
+    - name: Upload artifacts    # Saves the built package artifacts so that they can later be downloaded or deployed in another step
+      uses: actions/upload-artifact@v3  # Uploads the contents of the dist/ directory under the artifact name dist-packages
+      with:
+        name: dist-packages
+        path: dist/
