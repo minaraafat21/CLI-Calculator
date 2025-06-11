@@ -1,0 +1,14 @@
+# rule for building shared library
+rule compile
+  command = gcc -Wall -fPIC -shared `python3-config --includes --ldflags` -o $out $in
+
+build calculator.so: compile calculator.c calculator_module.c
+
+# Default target
+default calculator.so
+
+# Clean rule
+rule clean
+  command = rm -f calculator.so
+
+build clean: clean
