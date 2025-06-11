@@ -1,10 +1,10 @@
 from setuptools import setup, Extension
 
 calculator_module = Extension(
-    'calculator',  # this is the name you'll import in Python
+    'calculator',  
     sources=[
-        'C_calclulator/calculator_module.c',
-        'C_calclulator/calculator.c'],
+        'src\c\calculator_module.c',
+        'src\c\calculator.c'],
     include_dirs=['calculator']
 )
 
