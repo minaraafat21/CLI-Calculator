@@ -18,8 +18,8 @@ EXT := so
 SHARED_FLAGS := -shared -fPIC
 
 ifeq ($(OS),Windows_NT)
-    EXT := pyd
-    SHARED_FLAGS := -shared
+	EXT := pyd
+	SHARED_FLAGS := -shared
 endif
 
 TARGET = calculator.$(EXT)
@@ -29,16 +29,16 @@ all: $(TARGET)
 
 ifeq ($(OS),Windows_NT)
 $(TARGET): $(SOURCES)
-    @gcc -Wall $(SHARED_FLAGS) -I"$(PYTHON_INCLUDE)" -o $(TARGET) $(SOURCES) -L"$(PYTHON_LIBDIR)" -l$(PYTHON_LIBVER)
+	@gcc -Wall $(SHARED_FLAGS) -I"$(PYTHON_INCLUDE)" -o $(TARGET) $(SOURCES) -L"$(PYTHON_LIBDIR)" -l$(PYTHON_LIBVER)
 else ifeq ($(UNAME_S),Darwin)
 $(TARGET): $(SOURCES)
-    @gcc -Wall $(SHARED_FLAGS) $(shell $(PYTHON)-config --includes) -o $(TARGET) $(SOURCES) $(shell $(PYTHON)-config --ldflags) -lpython$(PYTHON_VERSION)
+	@gcc -Wall $(SHARED_FLAGS) $(shell $(PYTHON)-config --includes) -o $(TARGET) $(SOURCES) $(shell $(PYTHON)-config --ldflags) -lpython$(PYTHON_VERSION)
 else
 $(TARGET): $(SOURCES)
-    @gcc -Wall $(SHARED_FLAGS) $(shell $(PYTHON)-config --includes) -o $(TARGET) $(SOURCES) $(shell $(PYTHON)-config --ldflags)
+	@gcc -Wall $(SHARED_FLAGS) $(shell $(PYTHON)-config --includes) -o $(TARGET) $(SOURCES) $(shell $(PYTHON)-config --ldflags)
 endif
 
 clean:
-    @rm -f calculator.so calculator.pyd
+	@rm -f calculator.so calculator.pyd
 
 .PHONY: all clean
