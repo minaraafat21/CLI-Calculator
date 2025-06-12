@@ -42,11 +42,16 @@ pip install -r requirements.txt
 make build
 
 # Install the package
-pip install -e .
+pip install .
+# run test
+pytest tests/python/
 ```
 
 ## 📖 Usage
-
+calculator <operation> <num1> <num2>
+##### Example
+calculator add 2 3
+Output: Result: 5.0
 ### Command Line Interface
 
 ```bash
@@ -185,10 +190,6 @@ make test-coverage
 # Specific test categories
 pytest tests/python/          # Python tests
 make test-c                   # C tests
-pytest tests/integration/     # Integration tests
-
-# Performance benchmarks
-pytest tests/benchmarks/ -v
 ```
 
 ### Test Structure
@@ -197,13 +198,9 @@ pytest tests/benchmarks/ -v
 tests/
 ├── c/                    # C unit tests
 │   ├── test_calculator.c
-│   └── unity/           # Unity test framework
 ├── python/              # Python unit tests
 │   ├── test_api.py
 │   ├── test_cli.py
-│   └── test_integration.py
-├── integration/         # End-to-end tests
-└── benchmarks/         # Performance tests
 ```
 
 ### Coverage Requirements
