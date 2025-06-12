@@ -84,6 +84,10 @@ jobs:   # Defines the set of jobs for the workflow
       run: |
         python setup.py build_ext --inplace
 
+    - name: Move calculator.so to src/python
+      run: |
+          cp calculator*.so src/python/
+
     - name: Lint Python code    # Uses tools like flake8 and pylint to check Python code quality and style
       # Runs both linting tools on the given directories
       run: |
