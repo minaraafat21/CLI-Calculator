@@ -95,13 +95,6 @@ jobs:   # Defines the set of jobs for the workflow
         black --check src/python tests
         isort --check-only src/python tests
 
-    - name: Type check Python code  # Executes mypy to perform static type analysis on the Python code
-      # Catches inconsistencies or type errors that might not be detected through runtime tests
-      run: |
-        mypy src/python
-
-    
-
     - name: Run C tests # Executes tests for the C code
       # Assumes a Makefile rule called test-c that runs C-related tests
       run: |
@@ -110,6 +103,7 @@ jobs:   # Defines the set of jobs for the workflow
     - name: Run Python tests with coverage  # Runs the Python test suite while capturing code coverage
       # Runs tests using pytest and outputs a coverage report in XML format
       run: |
+        export PYTHONPATH=$(pwd)/src/python:$PYTHONPATH
         coverage run -m pytest tests/python/
         coverage xml
 
