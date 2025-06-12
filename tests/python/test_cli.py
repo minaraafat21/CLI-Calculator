@@ -1,10 +1,6 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'src')))
-
 import pytest
 from unittest.mock import patch
-from python.cli_calculator import main
+from calculator.cli_calculator import main
 
 # Tests for the CLI
 def test_cli_add(capsys):
