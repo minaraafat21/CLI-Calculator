@@ -130,7 +130,7 @@ jobs:   # Defines the set of jobs for the workflow
     - name: Test Python API # Tests that the Python API (importable as a module) is working correctly
       # Imports the module and performs an addition operation to verify its functionality
       run: |
-        python -c "import cli_calculator; print(cli_calculator.add(2, 3))"
+        python -c "import calculator; print(calculator.add(2, 3))"
 
   security: # Defines a separate job focusing on code security and vulnerability scanning
     runs-on: ubuntu-latest  # Runs on Ubuntu to ensure a consistent environment for security tools
