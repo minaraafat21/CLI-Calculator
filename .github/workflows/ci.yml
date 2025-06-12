@@ -190,7 +190,7 @@ jobs:   # Defines the set of jobs for the workflow
         twine check dist/*
 
     - name: Upload artifacts    # Saves the built package artifacts so that they can later be downloaded or deployed in another step
-      uses: actions/upload-artifact@v3  # Uploads the contents of the dist/ directory under the artifact name dist-packages
+      uses: actions/upload-artifact@v4  # Uploads the contents of the dist/ directory under the artifact name dist-packages
       with:
         name: dist-packages
         path: dist/
