@@ -1,7 +1,7 @@
 from setuptools import setup, Extension
 
 calculator_module = Extension(
-    'calculator',  
+    'calculator',
     sources=[
         'src/c/calculator_module.c',
         'src/c/calculator.c'],
