@@ -83,7 +83,7 @@ jobs:   # Defines the set of jobs for the workflow
       # Compiles any C extensions and places them within the package directory
       run: |
         python setup.py build_ext --inplace
-        python3 setup.py install --user
+        python setup.py install --user
 
 
     # - name: Move calculator extension to src/python
