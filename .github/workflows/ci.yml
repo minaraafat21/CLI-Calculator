@@ -143,6 +143,9 @@ jobs:   # Defines the set of jobs for the workflow
       uses: github/codeql-action/init@v2    # Sets up the environment for scanning, targeting both Python and C++ languages by specifying
       with:
         languages: python, cpp
+    
+    - name: Install Python dev headers
+      run: sudo apt-get update && sudo apt-get install -y python3-dev
 
     - name: Autobuild   # Uses CodeQL’s automated build process to compile the project in a compatible manner
       uses: github/codeql-action/autobuild@v2
