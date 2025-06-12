@@ -1,6 +1,7 @@
 """Tests for the C backend calculator module."""
 
 from calculator import add, divide, multiply, subtract
+
 import pytest
 
 
