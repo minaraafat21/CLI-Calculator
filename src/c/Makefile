@@ -1,15 +1,31 @@
-TARGET = calculator.so
-SOURCES = calculator.c calculator_module.c
+# Detect OS
+ifeq ($(OS),Windows_NT)
+    PYTHON := python
+    PYTHON_INCLUDE := $(shell $(PYTHON) -c "from sysconfig import get_paths as gp; print(gp()['include'])")
+    PYTHON_LIB := $(shell $(PYTHON) -c "import sys; print('python{}.{}.lib'.format(sys.version_info.major, sys.version_info.minor))")
+    EXT := pyd
+    SHARED_FLAGS := -shared
+else
+    PYTHON := python3
+    PYTHON_INCLUDE := $(shell $(PYTHON)-config --includes)
+    PYTHON_LIB := $(shell $(PYTHON)-config --ldflags)
+    EXT := so
+    SHARED_FLAGS := -shared -fPIC
+endif
 
-PYTHON_LIB = -lpython$(shell python3 -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+TARGET = calculator.$(EXT)
+SOURCES = calculator.c calculator_module.c
 
 all: $(TARGET)
 
 $(TARGET): $(SOURCES)
-	gcc -Wall -fPIC -shared $(shell python3-config --includes) -o $(TARGET) $(SOURCES) $(shell python3-config --ldflags) $(PYTHON_LIB)
-	# flags used: -Wall: warnings, -fPIC: position independent code, -shared: shared library for Python 
+ifeq ($(OS),Windows_NT)
+    gcc -Wall $(SHARED_FLAGS) -I"$(PYTHON_INCLUDE)" -o $(TARGET) $(SOURCES) -L"$(PYTHON_INCLUDE)/../libs" -l$(PYTHON_LIB)
+else
+    gcc -Wall $(SHARED_FLAGS) $(PYTHON_INCLUDE) -o $(TARGET) $(SOURCES) $(PYTHON_LIB)
+endif
 
 clean:
-	rm -f $(TARGET)
+    rm -f calculator.so calculator.pyd
 
 .PHONY: all clean
