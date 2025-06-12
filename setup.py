@@ -3,9 +3,9 @@ from setuptools import setup, Extension
 calculator_module = Extension(
     'calculator',  
     sources=[
-        'src\c\calculator_module.c',
-        'src\c\calculator.c'],
-    include_dirs=['calculator']
+        'src/c/calculator_module.c',
+        'src/c/calculator.c'],
+    include_dirs=['src/c']
 )
 
 setup(
