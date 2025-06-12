@@ -79,6 +79,10 @@ jobs:   # Defines the set of jobs for the workflow
       run: |
         cd src/c && make
 
+    - name: Build Python package    # Builds the Python package, including any C extension modules
+      # Compiles any C extensions and places them within the package directory
+      run: |
+        python setup.py build_ext --inplace
 
     - name: Lint Python code    # Uses tools like flake8 and pylint to check Python code quality and style
       # Runs both linting tools on the given directories
@@ -98,10 +102,7 @@ jobs:   # Defines the set of jobs for the workflow
       run: |
         mypy src/python
 
-    - name: Build Python package    # Builds the Python package, including any C extension modules
-      # Compiles any C extensions and places them within the package directory
-      run: |
-        python setup.py build_ext --inplace
+    
 
     - name: Run C tests # Executes tests for the C code
       # Assumes a Makefile rule called test-c that runs C-related tests
