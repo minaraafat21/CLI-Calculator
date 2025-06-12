@@ -24,7 +24,7 @@ A high-performance command-line calculator with C backend and Python interface, 
 
 ### Prerequisites
 
-- **Python**: 3.8+ (3.12+ recommended)
+- **Python**: 3.8+ (3.12 recommended)
 - **GCC**: (or Clang) with -fPIC support
 - **Ninja**: (optional, if you prefer Ninja over Make)
 - python3-config in your PATH
