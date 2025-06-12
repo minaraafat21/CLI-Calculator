@@ -75,6 +75,11 @@ jobs:   # Defines the set of jobs for the workflow
       run: |
         find src/c -name "*.c" -o -name "*.h" | xargs clang-format --dry-run --Werror
 
+    - name: Build C backend # Runs the Makefile target to build the C backend
+      run: |
+        make -f src/c/Makefile
+
+
     - name: Lint Python code    # Uses tools like flake8 and pylint to check Python code quality and style
       # Runs both linting tools on the given directories
       run: |
@@ -91,10 +96,6 @@ jobs:   # Defines the set of jobs for the workflow
       # Catches inconsistencies or type errors that might not be detected through runtime tests
       run: |
         mypy src/python
-
-    - name: Build C backend # Runs the Makefile target to build the C backend
-      run: |
-        make build
 
     - name: Build Python package    # Builds the Python package, including any C extension modules
       # Compiles any C extensions and places them within the package directory
