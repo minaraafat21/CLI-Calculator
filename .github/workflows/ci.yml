@@ -122,10 +122,10 @@ jobs:   # Defines the set of jobs for the workflow
       # Runs a series of commands to test addition, subtraction, multiplication, and division
       run: |
         cd src/python    
-        python -m cli_calculator 2 + 3
-        python -m cli_calculator 10 - 4
-        python -m cli_calculator 6 "*" 7
-        python -m cli_calculator 15 / 3
+        python -m cli_calculator add 2 3
+        python -m cli_calculator subtract 10 4
+        python -m cli_calculator multiply 7 6
+        python -m cli_calculator divide 20 5
 
     - name: Test Python API # Tests that the Python API (importable as a module) is working correctly
       # Imports the module and performs an addition operation to verify its functionality
