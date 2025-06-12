@@ -150,6 +150,7 @@ jobs:   # Defines the set of jobs for the workflow
 
     - name: Perform CodeQL Analysis # Runs the actual security analysis after the build step
       uses: github/codeql-action/analyze@v2
+      
 
     - name: Set up Python   # Resets the Python environment to version 3.10 for the upcoming security scans
       uses: actions/setup-python@v4
