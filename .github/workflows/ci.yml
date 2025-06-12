@@ -77,7 +77,7 @@ jobs:   # Defines the set of jobs for the workflow
 
     - name: Build C backend # Runs the Makefile target to build the C backend
       run: |
-        make -f src/c/Makefile
+        cd src/c && make
 
 
     - name: Lint Python code    # Uses tools like flake8 and pylint to check Python code quality and style
