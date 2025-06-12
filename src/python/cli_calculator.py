@@ -10,7 +10,10 @@ def calculate(operation, num1, num2):
     elif operation == "multiply":
         return multiply(num1, num2)
     elif operation == "divide":
-        return divide(num1, num2)
+        try:
+            return divide(num1, num2)
+        except ZeroDivisionError:
+            raise ValueError("division by zero")
     else:
         raise ValueError("Invalid operation")  # Fallback safety
 
