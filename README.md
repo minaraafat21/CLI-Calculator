@@ -49,7 +49,10 @@ ninja           # builds calculator.so
 ```
 
 ## 📖 Usage
-
+calculator <operation> <num1> <num2>
+##### Example
+calculator add 2 3
+Output: Result: 5.0
 ### Command Line Interface
 
 ```bash
@@ -89,14 +92,11 @@ cli-calculator --interactive
 ### Python API
 
 ```python
-import cli_calculator
-
 # Basic operations
-result = cli_calculator.add(2, 3)        # 5
-result = cli_calculator.subtract(10, 4)  # 6
-result = cli_calculator.multiply(6, 7)   # 42
-result = cli_calculator.divide(15, 3)    # 5.0
+from calculator import add
+print(add(2, 3))  # 5.0
 
+import cli_calculator
 # Chain operations
 calc = cli_calculator.Calculator()
 result = calc.add(10).multiply(2).subtract(5).value  # 15
@@ -162,11 +162,26 @@ git commit --no-verify -m "emergency fix"
 
 ## 🧪 Testing
 
+### Running Tests
+
+```bash
+# All tests with coverage
+make test-coverage
+
+# Specific test categories
+pytest tests/python/          # Python tests
+make test-c                   # C tests
+```
+
 ### Test Structure
 
 ```
 tests/
-└──  test_c_backend.py
+├── c/                    # C unit tests
+│   ├── test_calculator.c
+├── python/              # Python unit tests
+│   ├── test_api.py
+│   ├── test_cli.py
 ```
 
 ### Coverage Requirements
@@ -174,6 +189,16 @@ tests/
 - **Minimum Coverage**: 80%
 - **Target Coverage**: 90%+
 - **Critical Paths**: 100% coverage required
+
+## 📦 Packaging
+
+### Python Package Structure
+
+```
+src/python/
+├── __init__.py          # Public API exports
+└── cli_calculator.py
+```
 
 ## 🔄 CI/CD Pipeline
 
@@ -200,9 +225,12 @@ tests/
 - **Required checks**: All CI tests, code review approval
 - **Merge strategy**: Squash and merge for clean history
 
-## 🛠️ Troubleshooting
+## Documentation
 
-### Common Build Issues
+```bash
+cd docs && make html
+Open docs/build/html/index.html.
+```
 
 #### C Compilation Errors
 
