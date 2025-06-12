@@ -86,9 +86,9 @@ jobs:   # Defines the set of jobs for the workflow
         python setup.py install --user
 
 
-    - name: Move calculator extension to src/python
-      run: |
-        cp calculator*.so src/python/ 2>/dev/null || cp calculator*.pyd src/python/ 2>/dev/null || cp build/lib*/calculator*.so src/python/ || cp build/lib*/calculator*.pyd src/python/ || true
+    # - name: Move calculator extension to src/python
+    #   run: |
+    #     cp calculator*.so src/python/ 2>/dev/null || cp calculator*.pyd src/python/ 2>/dev/null || cp build/lib*/calculator*.so src/python/ || cp build/lib*/calculator*.pyd src/python/ || true
 
 
     - name: Check Python code formatting    # Ensures Python code is formatted correctly
@@ -150,7 +150,7 @@ jobs:   # Defines the set of jobs for the workflow
 
     - name: Perform CodeQL Analysis # Runs the actual security analysis after the build step
       uses: github/codeql-action/analyze@v2
-      
+
 
     - name: Set up Python   # Resets the Python environment to version 3.10 for the upcoming security scans
       uses: actions/setup-python@v4
