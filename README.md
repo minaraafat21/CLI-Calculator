@@ -71,14 +71,11 @@ cli-calculator --interactive
 ### Python API
 
 ```python
-import cli_calculator
-
 # Basic operations
-result = cli_calculator.add(2, 3)        # 5
-result = cli_calculator.subtract(10, 4)  # 6
-result = cli_calculator.multiply(6, 7)   # 42
-result = cli_calculator.divide(15, 3)    # 5.0
+from calculator import add
+print(add(2, 3))  # 5.0
 
+import cli_calculator
 # Chain operations
 calc = cli_calculator.Calculator()
 result = calc.add(10).multiply(2).subtract(5).value  # 15
@@ -214,25 +211,9 @@ tests/
 ### Python Package Structure
 
 ```
-cli_calculator/
+src/python/
 ├── __init__.py          # Public API exports
-├── core.py             # Python wrapper functions
-├── cli.py              # Command-line interface
-├── _calculator.so      # Compiled C extension
-└── py.typed            # Type hints marker
-```
-
-### Build Distribution
-
-```bash
-# Build source and wheel distributions
-python -m build
-
-# Check package integrity
-twine check dist/*
-
-# Install from local build
-pip install dist/cli_calculator-*.whl
+└── cli_calculator.py
 ```
 
 ## 🔄 CI/CD Pipeline
@@ -261,9 +242,12 @@ pip install dist/cli_calculator-*.whl
 - **Required checks**: All CI tests, code review approval
 - **Merge strategy**: Squash and merge for clean history
 
-## 🛠️ Troubleshooting
+## Documentation
 
-### Common Build Issues
+```bash
+cd docs && make html
+Open docs/build/html/index.html.
+```
 
 #### C Compilation Errors
 
