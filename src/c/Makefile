@@ -1,13 +1,18 @@
-TARGET = calculator.so
-SOURCES = calculator.c calculator_module.c
+CC = gcc
+CFLAGS = -Wall -Werror -fPIC
+PYTHON_INCLUDE = $(shell python3-config --includes)
+PYTHON_LIB = $(shell python3-config --ldflags)
 
-all: $(TARGET)
+all: calculator_module.so
 
-$(TARGET): $(SOURCES)
-	gcc -Wall -fPIC -shared $(shell python3-config --includes --ldflags) -o $(TARGET) $(SOURCES)
-	# flags used: -Wall: warnings, -fPIC: position independent code, -shared: shared library for Python 
+calculator_module.so: calculator_module.c calculator.c
+	$(CC) $(CFLAGS) -shared -o $@ $^ $(PYTHON_INCLUDE) $(PYTHON_LIB)
+
+test: test_calculator
+	./test_calculator
+
+test_calculator: test_calculator.c calculator.c
+	$(CC) $(CFLAGS) -o $@ $^
 
 clean:
-	rm -f $(TARGET)
-
-.PHONY: all clean
+	rm -f calculator_module.so test_calculator
