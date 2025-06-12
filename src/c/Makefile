@@ -20,12 +20,12 @@ all: $(TARGET)
 
 $(TARGET): $(SOURCES)
 ifeq ($(OS),Windows_NT)
-    gcc -Wall $(SHARED_FLAGS) -I"$(PYTHON_INCLUDE)" -o $(TARGET) $(SOURCES) -L"$(PYTHON_INCLUDE)/../libs" -l$(PYTHON_LIB)
+	gcc -Wall $(SHARED_FLAGS) -I"$(PYTHON_INCLUDE)" -o $(TARGET) $(SOURCES) -L"$(PYTHON_INCLUDE)/../libs" -l$(PYTHON_LIB)
 else
-    gcc -Wall $(SHARED_FLAGS) $(PYTHON_INCLUDE) -o $(TARGET) $(SOURCES) $(PYTHON_LIB)
+	gcc -Wall $(SHARED_FLAGS) $(PYTHON_INCLUDE) -o $(TARGET) $(SOURCES) $(PYTHON_LIB)
 endif
 
 clean:
-    rm -f calculator.so calculator.pyd
+	rm -f calculator.so calculator.pyd
 
 .PHONY: all clean
