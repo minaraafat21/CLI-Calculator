@@ -3,9 +3,9 @@ name: CI/CD Pipeline    # Sets the descriptive name of the workflow
 
 on:     # Specifies the events that trigger the workflow
   push:     # The workflow runs whenever code is pushed to certain branches
-    branches: [ main, develop ]     # Only pushes to the main or develop branches will trigger this pipeline.
+    branches: [ main, develop, CI ]     # Only pushes to the main or develop branches will trigger this pipeline.
   pull_request:     # The workflow also triggers when a pull request targets the specified branches
-    branches: [ main, develop ]     # This ensures that the CI process validates contributions before merging them into critical branches
+    branches: [ main, develop, CI ]     # This ensures that the CI process validates contributions before merging them into critical branches
 
 jobs:   # Defines the set of jobs for the workflow
   test:
