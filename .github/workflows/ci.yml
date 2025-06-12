@@ -119,6 +119,7 @@ jobs:   # Defines the set of jobs for the workflow
     - name: Test CLI functionality  # Tests that the command-line interface behaves as expected by executing several arithmetic operations via the cli_calculator module
       # Runs a series of commands to test addition, subtraction, multiplication, and division
       run: |
+        cd src/python    
         python -m cli_calculator 2 + 3
         python -m cli_calculator 10 - 4
         python -m cli_calculator 6 "*" 7
