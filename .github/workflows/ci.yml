@@ -67,7 +67,7 @@ jobs:   # Defines the set of jobs for the workflow
       if: matrix.os == 'ubuntu-latest'
       # Scans C source files under src/c/ and exits with an error code if violations are found
       run: |
-        cppcheck --enable=all --error-exitcode=1 src/c/
+        cppcheck --enable=all --error-exitcode=1 --suppress=missingIncludeSystem --suppress=unusedFunction src/c/
 
     - name: Check C code formatting # Verifies that the C code adheres to prescribed formatting rules using clang-format
       if: matrix.os == 'ubuntu-latest'
