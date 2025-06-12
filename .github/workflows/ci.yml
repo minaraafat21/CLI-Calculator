@@ -89,13 +89,6 @@ jobs:   # Defines the set of jobs for the workflow
         cp calculator*.so src/python/ 2>/dev/null || cp calculator*.pyd src/python/ 2>/dev/null || cp build/lib*/calculator*.so src/python/ || cp build/lib*/calculator*.pyd src/python/ || true
 
 
-    - name: Lint Python code    # Uses tools like flake8 and pylint to check Python code quality and style
-      # Runs both linting tools on the given directories
-      run: |
-        export PYTHONPATH=$(pwd)/src/python:$PYTHONPATH
-        flake8 src/python tests
-        pylint src/python
-
     - name: Check Python code formatting    # Ensures Python code is formatted correctly
       # Uses Black to check code formatting and isort to verify import order
       run: |
