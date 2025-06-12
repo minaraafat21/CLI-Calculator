@@ -24,7 +24,7 @@ def main():
     parser.add_argument(
         "operation",
         choices=["add", "subtract", "multiply", "divide"],
-        help="Operation to perform"
+        help="Operation to perform",
     )
     parser.add_argument("num1", type=float, help="First number")
     parser.add_argument("num2", type=float, help="Second number")

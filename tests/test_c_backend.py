@@ -7,17 +7,17 @@ import pytest
 
 def test_add():
     """Test the add function."""
-    assert add(2, 3) == 5            # Normal case
-    assert add(-1, 1) == 0           # Edge case: negative + positive
-    assert add(0, 0) == 0            # Edge case: zeros
-    assert add(2.5, 3.5) == 6.0      # Float support
+    assert add(2, 3) == 5  # Normal case
+    assert add(-1, 1) == 0  # Edge case: negative + positive
+    assert add(0, 0) == 0  # Edge case: zeros
+    assert add(2.5, 3.5) == 6.0  # Float support
 
 
 def test_subtract():
     """Test the subtract function."""
-    assert subtract(5, 3) == 2       # Normal case
-    assert subtract(3, 5) == -2      # Edge case: negative result
-    assert subtract(0, 0) == 0       # Edge case: zeros
+    assert subtract(5, 3) == 2  # Normal case
+    assert subtract(3, 5) == -2  # Edge case: negative result
+    assert subtract(0, 0) == 0  # Edge case: zeros
 
 
 def test_multiply():
