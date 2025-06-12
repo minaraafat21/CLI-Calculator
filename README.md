@@ -196,8 +196,7 @@ pytest tests/benchmarks/ -v
 ```
 tests/
 ├── c/                    # C unit tests
-│   ├── test_calculator.c
-│   └── unity/           # Unity test framework
+│   └── test_calculator.c
 ├── python/              # Python unit tests
 │   ├── test_api.py
 │   ├── test_cli.py
@@ -360,7 +359,9 @@ cli-calculator/
 │   ├── c/                  # C backend source
 │   │   ├── calculator.c
 │   │   ├── calculator.h
-│   │   └── Makefile
+│   │   |── Makefile
+│   │   |── build.ninja
+│   │   └── calculator_module.h
 │   └── python/             # Python package
 │       └── cli_calculator/
 ├── tests/                  # Test suites
