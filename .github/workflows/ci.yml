@@ -34,19 +34,19 @@ jobs:   # Defines the set of jobs for the workflow
       # Updates the package lists and installs essential build tools (like gcc, make) and analysis tools (valgrind, cppcheck) needed for C-based code     
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential gcc make valgrind cppcheck
+        sudo apt-get install -y build-essential gcc make valgrind cppcheck python3-dev
 
     - name: Install system dependencies (macOS)
       if: matrix.os == 'macos-latest'
       # Uses Homebrew to install similar tools required on macOS
       run: |
-        brew install gcc make cppcheck
+        brew install gcc make cppcheck python
 
     - name: Install system dependencies (Windows)
       if: matrix.os == 'windows-latest'
       # Uses Chocolatey to install the MinGW toolchain and make on Windows
       run: |
-        choco install mingw make
+        choco install mingw make python
 
     - name: Cache pip dependencies  # Caches Python package installations to speed up subsequent runs
       uses: actions/cache@v3
