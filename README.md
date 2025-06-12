@@ -24,9 +24,10 @@ A high-performance command-line calculator with C backend and Python interface, 
 
 ### Prerequisites
 
-- **Python**: 3.8+ (3.10+ recommended)
-- **C Compiler**: GCC, Clang, or MSVC
-- **Build Tools**: Make (or Ninja for alternative build system)
+- **Python**: 3.8+ (3.12+ recommended)
+- **GCC**: (or Clang) with -fPIC support
+- **Ninja**: (optional, if you prefer Ninja over Make)
+- python3-config in your PATH
 
 ### Installation
 
@@ -39,10 +40,16 @@ cd cli-calculator
 pip install -r requirements.txt
 
 # Build the project
-make build
+cd src/c
+make            # builds calculator.so
 
-# Install the package
-pip install -e .
+# Clean up
+make clean
+
+# Using Ninja
+cd src/c
+ninja           # builds calculator.so
+ninja -t clean  # cleans build artifacts
 ```
 
 ## 📖 Usage
@@ -51,10 +58,25 @@ pip install -e .
 
 ```bash
 # Basic operations
-cli-calculator 2 + 3        # Output: 5
-cli-calculator 10 - 4       # Output: 6
-cli-calculator 6 "*" 7      # Output: 42
-cli-calculator 15 / 3       # Output: 5
+# Add two numbers
+cli_calculator add 5 3
+# → Result: 8.0
+
+# Subtract
+cli_calculator subtract 10 4
+# → Result: 6.0
+
+# Multiply
+cli_calculator multiply 2 7
+# → Result: 14.0
+
+# Divide
+cli_calculator divide 9 3
+# → Result: 3.0
+
+# Division by zero
+cli_calculator divide 1 0
+# → Error: division by zero
 
 # Using Python module
 python -m cli_calculator 2 + 3
@@ -89,8 +111,12 @@ git clone https://github.com/minaraafat21/cli-calculator.git
 cd cli-calculator
 
 # Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install the packages in "editable" mode
+cd src/python
+pip install -e .
 
 # Install development dependencies
 pip install -r requirements-dev.txt
@@ -195,14 +221,7 @@ pytest tests/benchmarks/ -v
 
 ```
 tests/
-├── c/                    # C unit tests
-│   └── test_calculator.c
-├── python/              # Python unit tests
-│   ├── test_api.py
-│   ├── test_cli.py
-│   └── test_integration.py
-├── integration/         # End-to-end tests
-└── benchmarks/         # Performance tests
+└──  test_c_backend.py
 ```
 
 ### Coverage Requirements
@@ -337,7 +356,6 @@ We use [Conventional Commits](https://www.conventionalcommits.org/):
 ```
 feat: add new calculator operation
 fix: resolve division by zero handling
-docs: update API documentation
 test: add integration tests
 refactor: optimize C backend performance
 ```
@@ -365,10 +383,7 @@ cli-calculator/
 │   └── python/             # Python package
 │       └── cli_calculator/
 ├── tests/                  # Test suites
-├── docs/                   # Documentation
-├── scripts/                # Build and utility scripts
 ├── .pre-commit-config.yaml # Pre-commit configuration
-├── pyproject.toml         # Python project metadata
 ├── setup.py               # Package setup
 ├── Makefile               # Build system
 ├── requirements.txt       # Runtime dependencies
@@ -386,14 +401,11 @@ cli-calculator/
 
 ## 🙏 Acknowledgments
 
-- **Team Members**: Backend C Developer, Python API Developer
-- **Tools**: GitHub Actions, pre-commit, pytest, unity
+- **Tools**: GitHub Actions, pre-commit, pytest
 - **Inspiration**: Modern software engineering practices
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/minaraafat21/cli-calculator/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/minaraafat21/cli-calculator/discussions)
 - **Contact**: [mina.youssef387@gmail.com](mailto:mina.youssef387@gmail.com)
 
 ---
