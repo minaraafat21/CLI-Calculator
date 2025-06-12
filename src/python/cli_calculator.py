@@ -1,6 +1,7 @@
 """CLI Calculator module."""
 
 import argparse
+
 from calculator import add, divide, multiply, subtract
 
 
