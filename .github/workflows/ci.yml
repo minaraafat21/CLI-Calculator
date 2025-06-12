@@ -1,4 +1,4 @@
-# .github/workflows/ci.yml      Indicates the file path where the workflow is stored
+# .github/workflows/ci.yml 
 name: CI/CD Pipeline    # Sets the descriptive name of the workflow
 
 on:     # Specifies the events that trigger the workflow
@@ -84,12 +84,6 @@ jobs:   # Defines the set of jobs for the workflow
       run: |
         python setup.py build_ext --inplace
         python setup.py install
-
-
-    # - name: Move calculator extension to src/python
-    #   run: |
-    #     cp calculator*.so src/python/ 2>/dev/null || cp calculator*.pyd src/python/ 2>/dev/null || cp build/lib*/calculator*.so src/python/ || cp build/lib*/calculator*.pyd src/python/ || true
-
 
     - name: Check Python code formatting    # Ensures Python code is formatted correctly
       # Uses Black to check code formatting and isort to verify import order
