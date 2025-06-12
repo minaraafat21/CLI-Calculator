@@ -24,9 +24,10 @@ A high-performance command-line calculator with C backend and Python interface, 
 
 ### Prerequisites
 
-- **Python**: 3.8+ (3.10+ recommended)
-- **C Compiler**: GCC, Clang, or MSVC
-- **Build Tools**: Make (or Ninja for alternative build system)
+- **Python**: 3.8+ (3.12 recommended)
+- **GCC**: (or Clang) with -fPIC support
+- **Ninja**: (optional, if you prefer Ninja over Make)
+- python3-config in your PATH
 
 ### Installation
 
@@ -39,10 +40,12 @@ cd cli-calculator
 pip install -r requirements.txt
 
 # Build the project
-make build
+cd src/c
+make            # builds calculator.so
 
-# Install the package
-pip install -e .
+# Using Ninja
+cd src/c
+ninja           # builds calculator.so
 ```
 
 ## 📖 Usage
@@ -50,11 +53,31 @@ pip install -e .
 ### Command Line Interface
 
 ```bash
+python3
+
+# import calculator
+import calculator
+
 # Basic operations
-cli-calculator 2 + 3        # Output: 5
-cli-calculator 10 - 4       # Output: 6
-cli-calculator 6 "*" 7      # Output: 42
-cli-calculator 15 / 3       # Output: 5
+# Add two numbers
+calculator.add(3,5)
+# → Result: 8.0
+
+# Subtract
+calculator.subtract(10,4)
+# → Result: 6.0
+
+# Multiply
+calculator.multiply(6, 7)
+# → Result: 42.0
+
+# Divide
+calculator.divide(15, 3)
+# → Result: 5.0
+
+# Division by zero
+calculator.divide(1, 0)
+# → Error: division by zero
 
 # Using Python module
 python -m cli_calculator 2 + 3
@@ -89,55 +112,18 @@ git clone https://github.com/minaraafat21/cli-calculator.git
 cd cli-calculator
 
 # Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install the packages in "editable" mode
+cd src/python
+pip install -e .
 
 # Install development dependencies
 pip install -r requirements-dev.txt
 
 # Install pre-commit hooks
 pre-commit install
-```
-
-### Build System
-
-#### Using Make (Primary)
-
-```bash
-# Build C backend and Python extension
-make build
-
-# Run all tests
-make test
-
-# Run specific test suites
-make test-c        # C unit tests only
-make test-python   # Python tests only
-
-# Clean build artifacts
-make clean
-
-# Development build with debug symbols
-make debug
-
-# Install in development mode
-make install-dev
-```
-
-#### Using Ninja (Alternative Build System)
-
-```bash
-# Generate build files
-ninja -f build.ninja
-
-# Build project
-ninja build
-
-# Run tests
-ninja test
-
-# Clean
-ninja clean
 ```
 
 ### Code Quality
@@ -176,34 +162,11 @@ git commit --no-verify -m "emergency fix"
 
 ## 🧪 Testing
 
-### Running Tests
-
-```bash
-# All tests with coverage
-make test-coverage
-
-# Specific test categories
-pytest tests/python/          # Python tests
-make test-c                   # C tests
-pytest tests/integration/     # Integration tests
-
-# Performance benchmarks
-pytest tests/benchmarks/ -v
-```
-
 ### Test Structure
 
 ```
 tests/
-├── c/                    # C unit tests
-│   ├── test_calculator.c
-│   └── unity/           # Unity test framework
-├── python/              # Python unit tests
-│   ├── test_api.py
-│   ├── test_cli.py
-│   └── test_integration.py
-├── integration/         # End-to-end tests
-└── benchmarks/         # Performance tests
+└──  test_c_backend.py
 ```
 
 ### Coverage Requirements
@@ -212,32 +175,6 @@ tests/
 - **Target Coverage**: 90%+
 - **Critical Paths**: 100% coverage required
 
-## 📦 Packaging
-
-### Python Package Structure
-
-```
-cli_calculator/
-├── __init__.py          # Public API exports
-├── core.py             # Python wrapper functions
-├── cli.py              # Command-line interface
-├── _calculator.so      # Compiled C extension
-└── py.typed            # Type hints marker
-```
-
-### Build Distribution
-
-```bash
-# Build source and wheel distributions
-python -m build
-
-# Check package integrity
-twine check dist/*
-
-# Install from local build
-pip install dist/cli_calculator-*.whl
-```
-
 ## 🔄 CI/CD Pipeline
 
 ### GitHub Actions Workflows
@@ -245,7 +182,7 @@ pip install dist/cli_calculator-*.whl
 #### Main CI Pipeline (`.github/workflows/ci.yml`)
 
 - **Multi-platform testing**: Ubuntu, Windows, macOS
-- **Python versions**: 3.8, 3.9, 3.10, 3.11
+- **Python versions**: 3.8, 3.9, 3.10, 3.11, 3.12
 - **Build verification**: C backend + Python package
 - **Test execution**: Unit, integration, and CLI tests
 - **Code quality**: Linting, formatting, type checking
@@ -254,7 +191,6 @@ pip install dist/cli_calculator-*.whl
 
 #### Quality Assurance (`.github/workflows/quality.yml`)
 
-- **Documentation**: Sphinx generation and deployment
 - **Performance**: Benchmarking and regression detection
 - **Dependency**: Automated security updates
 
@@ -321,16 +257,6 @@ make CFLAGS="-O3 -march=native" build
 python -m cProfile -s cumulative src/python/cli_calculator/cli.py 2 + 3
 ```
 
-## 🤝 Contributing
-
-### Development Workflow
-
-1. **Fork** the repository
-2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
-3. **Commit** changes: `git commit -m 'feat: add amazing feature'`
-4. **Push** to branch: `git push origin feature/amazing-feature`
-5. **Open** a Pull Request
-
 ### Commit Convention
 
 We use [Conventional Commits](https://www.conventionalcommits.org/):
@@ -338,7 +264,6 @@ We use [Conventional Commits](https://www.conventionalcommits.org/):
 ```
 feat: add new calculator operation
 fix: resolve division by zero handling
-docs: update API documentation
 test: add integration tests
 refactor: optimize C backend performance
 ```
@@ -347,7 +272,6 @@ refactor: optimize C backend performance
 
 - **Automated checks**: All CI tests must pass
 - **Human review**: At least one team member approval
-- **Documentation**: Update docs for new features
 - **Tests**: Add tests for new functionality
 
 ## 📋 Project Structure
@@ -360,14 +284,13 @@ cli-calculator/
 │   ├── c/                  # C backend source
 │   │   ├── calculator.c
 │   │   ├── calculator.h
-│   │   └── Makefile
+│   │   |── Makefile
+│   │   |── build.ninja
+│   │   └── calculator_module.h
 │   └── python/             # Python package
 │       └── cli_calculator/
 ├── tests/                  # Test suites
-├── docs/                   # Documentation
-├── scripts/                # Build and utility scripts
 ├── .pre-commit-config.yaml # Pre-commit configuration
-├── pyproject.toml         # Python project metadata
 ├── setup.py               # Package setup
 ├── Makefile               # Build system
 ├── requirements.txt       # Runtime dependencies
@@ -385,14 +308,11 @@ cli-calculator/
 
 ## 🙏 Acknowledgments
 
-- **Team Members**: Backend C Developer, Python API Developer
-- **Tools**: GitHub Actions, pre-commit, pytest, unity
+- **Tools**: GitHub Actions, pre-commit, pytest
 - **Inspiration**: Modern software engineering practices
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/minaraafat21/cli-calculator/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/minaraafat21/cli-calculator/discussions)
 - **Contact**: [mina.youssef387@gmail.com](mailto:mina.youssef387@gmail.com)
 
 ---
