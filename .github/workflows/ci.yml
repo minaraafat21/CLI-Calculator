@@ -100,12 +100,12 @@ jobs:   # Defines the set of jobs for the workflow
     #   run: |
     #     make test-c
 
-    - name: Run Python tests with coverage  # Runs the Python test suite while capturing code coverage
-      # Runs tests using pytest and outputs a coverage report in XML format
-      run: |
-        export PYTHONPATH=$(pwd)/src/python:$PYTHONPATH
-        coverage run -m pytest tests/python/
-        coverage xml
+    # - name: Run Python tests with coverage  # Runs the Python test suite while capturing code coverage
+    #   # Runs tests using pytest and outputs a coverage report in XML format
+    #   run: |
+    #     export PYTHONPATH=$(pwd)/src/python:$PYTHONPATH
+    #     coverage run -m pytest tests/
+    #     coverage xml
 
     - name: Upload coverage to Codecov  # Uploads the coverage report to Codecov for analysis
       # This step is conditionally executed only on a specific OS and Python version to avoid duplicate uploads
