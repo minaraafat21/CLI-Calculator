@@ -5,7 +5,8 @@ UNAME_S := $(shell uname -s)
 ifeq ($(OS),Windows_NT)
     PYTHON := python
     PYTHON_INCLUDE := $(shell $(PYTHON) -c "from sysconfig import get_paths as gp; print(gp()['include'])")
-    PYTHON_LIB := $(shell $(PYTHON) -c "import sys; print('python{}.{}.lib'.format(sys.version_info.major, sys.version_info.minor))")
+    PYTHON_LIBDIR := $(shell $(PYTHON) -c "from sysconfig import get_paths as gp; print(gp()['include'] + '/../libs')")
+    PYTHON_VERSION := $(shell $(PYTHON) -c "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))")
     EXT := pyd
     SHARED_FLAGS := -shared
 else
@@ -24,7 +25,7 @@ all: $(TARGET)
 ifeq ($(OS),Windows_NT)
 $(TARGET): $(SOURCES)
     # Windows build (tab at start)
-	gcc -Wall $(SHARED_FLAGS) -I"$(PYTHON_INCLUDE)" -o $(TARGET) $(SOURCES) -L"$(PYTHON_INCLUDE)/../libs" -l$(PYTHON_LIB)
+	gcc -Wall $(SHARED_FLAGS) -I"$(PYTHON_INCLUDE)" -o $(TARGET) $(SOURCES) -L"$(PYTHON_LIBDIR)" -lpython$(PYTHON_VERSION)
 else ifeq ($(UNAME_S),Darwin)
 $(TARGET): $(SOURCES)
     # macOS build (tab at start)
