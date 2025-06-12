@@ -107,14 +107,14 @@ jobs:   # Defines the set of jobs for the workflow
     #     coverage run -m pytest tests/
     #     coverage xml
 
-    - name: Upload coverage to Codecov  # Uploads the coverage report to Codecov for analysis
-      # This step is conditionally executed only on a specific OS and Python version to avoid duplicate uploads
-      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10'  
-      uses: codecov/codecov-action@v3   # Utilizes Codecov’s GitHub action to automate the upload process
-      with: # Specifies the file to upload and details that help identify the report
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
+    # - name: Upload coverage to Codecov  # Uploads the coverage report to Codecov for analysis
+    #   # This step is conditionally executed only on a specific OS and Python version to avoid duplicate uploads
+    #   if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10'  
+    #   uses: codecov/codecov-action@v3   # Utilizes Codecov’s GitHub action to automate the upload process
+    #   with: # Specifies the file to upload and details that help identify the report
+    #     file: ./coverage.xml
+    #     flags: unittests
+    #     name: codecov-umbrella
 
     - name: Test CLI functionality  # Tests that the command-line interface behaves as expected by executing several arithmetic operations via the cli_calculator module
       # Runs a series of commands to test addition, subtraction, multiplication, and division

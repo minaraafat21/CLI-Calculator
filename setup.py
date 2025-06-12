@@ -5,7 +5,7 @@ calculator_module = Extension(
     sources=[
         'src/c/calculator_module.c',
         'src/c/calculator.c'],
-    include_dirs=['calculator']
+    include_dirs=['src/c']
 )
 
 setup(
