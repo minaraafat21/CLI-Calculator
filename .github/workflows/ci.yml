@@ -86,7 +86,7 @@ jobs:   # Defines the set of jobs for the workflow
 
     - name: Move calculator extension to src/python
       run: |
-        cp calculator*.so src/python/ 2>/dev/null || cp build/lib*/calculator*.so src/python/ || true
+        cp calculator*.so src/python/ 2>/dev/null || cp calculator*.pyd src/python/ 2>/dev/null || cp build/lib*/calculator*.so src/python/ || cp build/lib*/calculator*.pyd src/python/ || true
 
     - name: Lint Python code    # Uses tools like flake8 and pylint to check Python code quality and style
       # Runs both linting tools on the given directories
