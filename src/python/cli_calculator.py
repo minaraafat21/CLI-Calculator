@@ -9,14 +9,13 @@ def calculate(operation, num1, num2):
     """Map the operation to the corresponding C function."""
     if operation == "add":
         return add(num1, num2)
-    elif operation == "subtract":
+    if operation == "subtract":
         return subtract(num1, num2)
-    elif operation == "multiply":
+    if operation == "multiply":
         return multiply(num1, num2)
-    elif operation == "divide":
+    if operation == "divide":
         return divide(num1, num2)
-    else:
-        raise ValueError("Invalid operation")  # Fallback safety
+    raise ValueError("Invalid operation")  # Fallback safety
 
 
 def main():
