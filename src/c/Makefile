@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Detect OS and platform
 PYTHON := python3
 UNAME_S := $(shell uname -s)
@@ -25,16 +24,9 @@ endif
 
 TARGET = calculator.$(EXT)
 SOURCES = calculator.c calculator_module.c
-=======
-CC = gcc
-CFLAGS = -Wall -Werror -fPIC
-PYTHON_INCLUDE = $(shell python3-config --includes)
-PYTHON_LIB = $(shell python3-config --ldflags)
->>>>>>> origin/develop
 
-all: calculator_module.so
+all: $(TARGET)
 
-<<<<<<< HEAD
 ifeq ($(OS),Windows_NT)
 $(TARGET): $(SOURCES)
 	@gcc -Wall $(SHARED_FLAGS) -I"$(PYTHON_INCLUDE)" -o $(TARGET) $(SOURCES) -L"$(PYTHON_LIBDIR)" -l$(PYTHON_LIBVER)
@@ -50,16 +42,3 @@ clean:
 	@rm -f calculator.so calculator.pyd
 
 .PHONY: all clean
-=======
-calculator_module.so: calculator_module.c calculator.c
-	$(CC) $(CFLAGS) -shared -o $@ $^ $(PYTHON_INCLUDE) $(PYTHON_LIB)
-
-test: test_calculator
-	./test_calculator
-
-test_calculator: test_calculator.c calculator.c
-	$(CC) $(CFLAGS) -o $@ $^
-
-clean:
-	rm -f calculator_module.so test_calculator
->>>>>>> origin/develop
