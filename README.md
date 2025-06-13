@@ -1,15 +1,21 @@
 # CLI Calculator
 
-[![CI/CD Pipeline](https://github.com/minaraafat21/cli-calculator/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/minaraafat21/cli-calculator/actions)
-[![codecov](https://codecov.io/gh/minaraafat21/cli-calculator/branch/main/graph/badge.svg)](https://codecov.io/gh/minaraafat21/cli-calculator)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![CI/CD Pipeline](
+https://github.com/minaraafat21/cli-calculator/workflows/CI%2FCD%20Pipeline/badge.svg
+)](https://github.com/minaraafat21/cli-calculator/actions)
+[![codecov](https://codecov.io/gh/minaraafat21/cli-calculator/branch/main/graph/badge.svg
+)](https://codecov.io/gh/minaraafat21/cli-calculator)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg
+)](https://github.com/psf/black)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+)](https://github.com/pre-commit/pre-commit)
 
-A high-performance command-line calculator with C backend and Python interface, demonstrating modern software engineering practices.
+A high-performance command-line calculator with C backend and Python interface,
+demonstrating modern software engineering practices.
 
 ## 🏗️ Architecture
 
-```
+```bash
 ┌─────────────────┐     ┌──────────────────┐    ┌─────────────────┐
 │  CLI Interface  │───▶ | Python Wrapper  │───▶│   C Backend     │
 │   (argparse)    │     │  (ctypes/cffi)   │    │  (core logic)   │
@@ -48,11 +54,17 @@ cd src/c
 ninja           # builds calculator.so
 ```
 
-## 📖 Usage
+### 📖 Usage
+
+```bash
 calculator <operation> <num1> <num2>
-##### Example
+```
+
+#### Example
+
 calculator add 2 3
 Output: Result: 5.0
+
 ### Command Line Interface
 
 ```bash
@@ -144,7 +156,7 @@ make typecheck
 make security-check
 ```
 
-#### Pre-commit Hooks
+### Pre-commit Hooks
 
 Pre-commit hooks automatically run on every commit:
 
@@ -175,7 +187,7 @@ make test-c                   # C tests
 
 ### Test Structure
 
-```
+```bash
 tests/
 ├── c/                    # C unit tests
 │   ├── test_calculator.c
@@ -194,7 +206,7 @@ tests/
 
 ### Python Package Structure
 
-```
+```bash
 src/python/
 ├── __init__.py          # Public API exports
 └── cli_calculator.py
@@ -225,7 +237,7 @@ src/python/
 - **Required checks**: All CI tests, code review approval
 - **Merge strategy**: Squash and merge for clean history
 
-## Documentation
+### Documentation
 
 ```bash
 cd docs && make html
@@ -289,7 +301,7 @@ python -m cProfile -s cumulative src/python/cli_calculator/cli.py 2 + 3
 
 We use [Conventional Commits](https://www.conventionalcommits.org/):
 
-```
+```bash
 feat: add new calculator operation
 fix: resolve division by zero handling
 test: add integration tests
@@ -304,7 +316,7 @@ refactor: optimize C backend performance
 
 ## 📋 Project Structure
 
-```
+```bash
 cli-calculator/
 ├── .github/
 │   └── workflows/           # GitHub Actions
@@ -345,4 +357,4 @@ cli-calculator/
 
 ---
 
-**Made with ❤️ by Team CLI Calculator**
+### Made with ❤️ by Team CLI Calculator

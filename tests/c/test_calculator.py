@@ -1,7 +1,9 @@
 """Tests for the C backend calculator module."""
 
+# Third Party
 import pytest
 
+# First Party
 from calculator import add, divide, multiply, subtract
 
 

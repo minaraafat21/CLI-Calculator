@@ -1,4 +1,4 @@
-# .github/workflows/ci.yml 
+# .github/workflows/ci.yml
 name: CI/CD Pipeline    # Sets the descriptive name of the workflow
 
 on:     # Specifies the events that trigger the workflow
@@ -30,8 +30,8 @@ jobs:   # Defines the set of jobs for the workflow
         python-version: ${{ matrix.python-version }}    # Dynamically picks the Python version from the matrix for current runner iteration
 
     - name: Install system dependencies (Ubuntu)    # This step only runs on Ubuntu runners
-      if: matrix.os == 'ubuntu-latest' 
-      # Updates the package lists and installs essential build tools (like gcc, make) and analysis tools (valgrind, cppcheck) needed for C-based code     
+      if: matrix.os == 'ubuntu-latest'
+      # Updates the package lists and installs essential build tools (like gcc, make) and analysis tools (valgrind, cppcheck) needed for C-based code
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential gcc make valgrind cppcheck python3-dev
@@ -107,7 +107,7 @@ jobs:   # Defines the set of jobs for the workflow
 
     # - name: Upload coverage to Codecov  # Uploads the coverage report to Codecov for analysis
     #   # This step is conditionally executed only on a specific OS and Python version to avoid duplicate uploads
-    #   if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10'  
+    #   if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10'
     #   uses: codecov/codecov-action@v3   # Utilizes Codecov’s GitHub action to automate the upload process
     #   with: # Specifies the file to upload and details that help identify the report
     #     file: ./coverage.xml
@@ -117,7 +117,7 @@ jobs:   # Defines the set of jobs for the workflow
     - name: Test CLI functionality  # Tests that the command-line interface behaves as expected by executing several arithmetic operations via the cli_calculator module
       # Runs a series of commands to test addition, subtraction, multiplication, and division
       run: |
-        cd src/python    
+        cd src/python
         python -m cli_calculator add 2 3
         python -m cli_calculator subtract 10 4
         python -m cli_calculator multiply 7 6
@@ -137,7 +137,7 @@ jobs:   # Defines the set of jobs for the workflow
       uses: github/codeql-action/init@v2    # Sets up the environment for scanning, targeting both Python and C++ languages by specifying
       with:
         languages: python, cpp
-    
+
     - name: Install Python dev headers
       run: sudo apt-get update && sudo apt-get install -y python3-dev
 
@@ -170,7 +170,7 @@ jobs:   # Defines the set of jobs for the workflow
     needs: [test]   # Specifies that this job should only run after the test job has successfully completed, ensuring the code passes all tests before packaging
     # Ensures that the package building step only executes for commit events on the main branch, avoiding unnecessary builds on feature branches or pull requests
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
     - uses: actions/checkout@v4 # Checks out the repository code again for this job
 

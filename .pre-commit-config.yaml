@@ -30,14 +30,13 @@ repos:
     rev: 6.0.0  # Specifies version 6.0.0
     hooks:
       - id: flake8  # Activates flake8
-        args: [--max-line-length=88, --extend-ignore=E203,W503] # sets the maximum line length in accordance with Black, tells flake8 to ignore specific warnings/errors that might conflict with Black’s formatting
+        args: [--max-line-length=88, --extend-ignore=E203, --ignore=W503] # sets the maximum line length in accordance with Black, tells flake8 to ignore specific warnings/errors that might conflict with Black’s formatting
         additional_dependencies: [flake8-docstrings, flake8-bugbear]  # Checks if functions and classes are properly documented, Adds extra warnings to catch common bugs and code smells
 
   - repo: https://github.com/pre-commit/mirrors-mypy  # Obtains mypy for static type checking
     rev: v1.3.0 # Uses version v1.3.0
     hooks:
       - id: mypy  # Enables the mypy hook
-        additional_dependencies: [types-all]  # Installs all available type stubs to help mypy understand third-party libraries
         args: [--ignore-missing-imports]  # Tells mypy to not fail when some type stubs are missing
 
   # C/C++ formatting

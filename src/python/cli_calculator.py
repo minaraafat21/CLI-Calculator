@@ -1,7 +1,9 @@
 """CLI Calculator module."""
 
+# Standard Library
 import argparse
 
+# First Party
 from calculator import add, divide, multiply, subtract
 
 
@@ -13,11 +15,6 @@ def calculate(operation, num1, num2):
         return subtract(num1, num2)
     if operation == "multiply":
         return multiply(num1, num2)
-<<<<<<< HEAD
-    if operation == "divide":
-        return divide(num1, num2)
-    raise ValueError("Invalid operation")  # Fallback safety
-=======
     elif operation == "divide":
         try:
             return divide(num1, num2)
@@ -25,7 +22,6 @@ def calculate(operation, num1, num2):
             raise ValueError("division by zero")
     else:
         raise ValueError("Invalid operation")  # Fallback safety
->>>>>>> origin/develop
 
 
 def main():
