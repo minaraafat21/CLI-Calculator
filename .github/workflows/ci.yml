@@ -48,19 +48,21 @@ jobs:   # Defines the set of jobs for the workflow
       run: |
         choco install mingw make python
 
-    - name: Cache pip dependencies  # Caches Python package installations to speed up subsequent runs
-      uses: actions/cache@v3
+    - name: Cache pip
+      uses: actions/cache@v4
       with:
-        path: ~/.cache/pip  # Caches the pip cache directory
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}  # Creates a unique key based on the operating system and the hash of requirements files
-        # Specifies a fallback key to restore the cache if an exact match is not found
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
-          ${{ runner.os }}-pip- 
+          ${{ runner.os }}-pip-
+
 
     - name: Install Python dependencies # Sets up the required Python packages
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Install dev tools
+      run: |
         pip install -r requirements-dev.txt
 
     - name: Lint C code # Uses static analysis on C code to catch errors and potential bugs
@@ -190,7 +192,7 @@ jobs:   # Defines the set of jobs for the workflow
         twine check dist/*
 
     - name: Upload artifacts    # Saves the built package artifacts so that they can later be downloaded or deployed in another step
-      uses: actions/upload-artifact@v3  # Uploads the contents of the dist/ directory under the artifact name dist-packages
+      uses: actions/upload-artifact@v4  # Uploads the contents of the dist/ directory under the artifact name dist-packages
       with:
         name: dist-packages
         path: dist/
