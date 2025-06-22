@@ -4,7 +4,7 @@
 import pytest
 
 # First Party
-from calculator import add, divide, multiply, subtract
+from calculator import add, divide, multiply, power, subtract
 
 
 def test_add():
@@ -37,3 +37,10 @@ def test_divide():
     assert divide(-6, 3) == -2
     with pytest.raises(ZeroDivisionError):
         divide(1, 0)
+
+
+def test_power():
+    """Test the power function."""
+    assert power(2, 3) == 8
+    assert power(-1, 1) == -1
+    assert power(2.5, 2) == 6.25

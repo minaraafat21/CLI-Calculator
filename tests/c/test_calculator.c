@@ -19,6 +19,10 @@ int main() {
   assert(multiply(-1, 1) == -1.0);
   assert(multiply(0, 5) == 0.0);
 
+  // Test power
+  assert(power(2, 3) == 8.0);
+  assert(power(-1, 1) == -1.0);
+
   // Test division
   int error;
   double result = divide(10, 2, &error);
