@@ -4,7 +4,7 @@
 import argparse
 
 # First Party
-from calculator import add, divide, multiply, subtract
+from calculator import add, divide, multiply, power, subtract
 
 
 def calculate(operation, num1, num2):
@@ -15,6 +15,8 @@ def calculate(operation, num1, num2):
         return subtract(num1, num2)
     if operation == "multiply":
         return multiply(num1, num2)
+    if operation == "power":
+        return power(num1, num2)
     elif operation == "divide":
         try:
             return divide(num1, num2)
@@ -29,7 +31,7 @@ def main():
     parser = argparse.ArgumentParser(description="CLI Calculator")
     parser.add_argument(
         "operation",
-        choices=["add", "subtract", "multiply", "divide"],
+        choices=["add", "subtract", "multiply", "divide", "power"],
         help="Operation to perform",
     )
     parser.add_argument("num1", type=float, help="First number")

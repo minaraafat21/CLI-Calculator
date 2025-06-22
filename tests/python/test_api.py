@@ -47,6 +47,15 @@ def test_calculate_divide(mock_divide):
     mock_divide.assert_called_once_with(10, 2)
 
 
+@patch("calculator.cli_calculator.power")
+def test_calculate_power(mock_power):
+    """Test multiplication operation."""
+    mock_power.return_value = 8
+    result = calculate("power", 2, 3)
+    assert result == 8
+    mock_power.assert_called_once_with(2, 3)
+
+
 def test_calculate_invalid_operation():
     """Test invalid operation."""
     with pytest.raises(ValueError, match="Invalid operation"):
